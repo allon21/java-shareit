@@ -23,8 +23,7 @@ public class UserService {
 
     public UserDto updateUser(Long userId, UserDto user) {
         User newUser = UserMapper.toUser(getUserById(userId));
-        User oldUser = userRepository.getUser(userId);
-        newUser.setId(oldUser.getId());
+        newUser.setId(userId);
         if (user.getName() != null) {
             newUser.setName(user.getName());
         }

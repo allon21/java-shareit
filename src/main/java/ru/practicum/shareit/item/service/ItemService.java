@@ -66,7 +66,7 @@ public class ItemService {
     }
 
     public Collection<ItemDto> searchItems(String text) {
-        if (text.isEmpty() || text == null) {
+        if (text == null || text.isEmpty()) {
             return new ArrayList<>();
         }
         return itemRepository.searchItems(text)

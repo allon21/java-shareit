@@ -16,13 +16,13 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleNotFoundException(final ValidationException e) {
+    public ErrorResponse handleValidationException(final ValidationException e) {
         return new ErrorResponse("У объекта не правильные поля", e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleNotFoundException(final EmailExistException e) {
+    public ErrorResponse handleEmailExistException(final EmailExistException e) {
         return new ErrorResponse("Почта уже существует", e.getMessage());
     }
 
