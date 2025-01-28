@@ -26,4 +26,10 @@ public class ErrorHandler {
         return new ErrorResponse("Почта уже существует", e.getMessage());
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleUserAccessException(final UserAccessException e) {
+        return new ErrorResponse("У объекта нет доступа", e.getMessage());
+    }
+
 }

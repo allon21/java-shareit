@@ -1,16 +1,24 @@
 package ru.practicum.shareit.item.dto;
 
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import lombok.Data;
-import ru.practicum.shareit.user.dto.UserDto;
+import lombok.Getter;
+import lombok.Setter;
+import ru.practicum.shareit.booking.dto.BookingDto;
 
-@Data
+import java.util.Collection;
+
+@Getter
+@Setter
 @Builder
 public class ItemDto {
-
-    private long id;
+    private Long id;
+    @Size(max = 255)
     private String name;
+    @Size(max = 512)
     private String description;
     private Boolean available;
-    private UserDto owner;
+    private BookingDto lastBooking;
+    private BookingDto nextBooking;
+    private Collection<CommentDto> comments;
 }
