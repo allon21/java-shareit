@@ -9,7 +9,7 @@ import ru.practicum.shareit.item.model.Comment;
 public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
-    Comment toComment(CommentDto CommentDto);
+    Comment toComment(CommentDto commentDto);
 
     @Mapping(target = "authorName", expression = "java(comment.getUser().getName())")
     CommentDto toCommentDto(Comment comment);
