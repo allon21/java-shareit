@@ -1,8 +1,6 @@
 package ru.practicum.shareit.booking.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -44,6 +42,9 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = BookingMapper.INSTANCE.toBooking(bookingDto);
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Объект не найден, id = " + bookerId));
+        if (item.getOwner().getId() == bookerId) {
+            throw new UserAccessException("Владелец не может забронировать свой объект.");
+        }
         if (!item.getAvailable()) {
             throw new ValidationException("Нет доступа");
         }
@@ -141,17 +142,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Optional<Booking> findLastBooking(Item item) {
-        Pageable pageable = PageRequest.of(0, 1);
         List<Booking> lastBookingList = bookingRepository.findFirstByItemAndStatusEndBefore(item,
                 BookingStatus.APPROVED,
-                LocalDateTime.now().minusDays(1),
-                pageable);
-        if (!lastBookingList.isEmpty()) {
-            return Optional.of(lastBookingList.getFirst());
-        } else {
-            return Optional.empty();
-        }
-
+                LocalDateTime.now().minusMinutes(1));
+        return lastBookingList.isEmpty() ? Optional.empty() : Optional.of(lastBookingList.getFirst());
     }
 
     @Override

@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking.repository;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -50,10 +49,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("SELECT b FROM Booking b " +
             "WHERE (b.item = :item) " +
             "AND (b.status = :status) " +
-            "AND (b.end < :topMoment)" +
+            "AND (b.end < :now)" +
             "ORDER BY b.end DESC")
     List<Booking> findFirstByItemAndStatusEndBefore(@Param("item") Item item,
                                                     @Param("status") BookingStatus status,
-                                                    @Param("topMoment") LocalDateTime topMoment,
-                                                    Pageable pageable);
+                                                    @Param("now") LocalDateTime now);
 }
