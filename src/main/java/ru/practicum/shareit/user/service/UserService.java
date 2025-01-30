@@ -1,46 +1,18 @@
 package ru.practicum.shareit.user.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.dto.UserMapper;
-import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.repository.UserRepository;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
+import java.util.Collection;
 
-    private final UserRepository userRepository;
+public interface UserService {
+    UserDto createUser(UserDto userDto);
 
-    public UserDto createUser(UserDto userDto) {
-        if (userDto.getEmail() == null || userDto.getEmail().isBlank()) {
-            throw new ValidationException("Почта не может быть пустой");
-        }
-        return UserMapper.toUserDto(userRepository.createUser(UserMapper.toUser(userDto)));
-    }
+    UserDto updateUser(Long userId, UserDto userDto);
 
-    public UserDto updateUser(Long userId, UserDto user) {
-        User newUser = UserMapper.toUser(getUserById(userId));
-        newUser.setId(userId);
-        if (user.getName() != null) {
-            newUser.setName(user.getName());
-        }
-        if (user.getEmail() != null) {
-            newUser.setEmail(user.getEmail());
-        }
-        return UserMapper.toUserDto(userRepository.updateUser(newUser));
-    }
+    UserDto deleteUser(Long userId);
 
-    public UserDto deleteUser(Long id) {
-        User user = userRepository.getUser(id);
-        userRepository.deleteUser(user.getId());
-        return UserMapper.toUserDto(user);
-    }
+    UserDto getUserById(Long userId);
 
-    public UserDto getUserById(Long userId) {
-        User user = userRepository.getUser(userId);
-        return UserMapper.toUserDto(user);
-    }
+    Collection<UserDto> findAll();
+
 }
