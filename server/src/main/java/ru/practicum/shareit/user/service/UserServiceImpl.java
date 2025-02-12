@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserMapper;
 import ru.practicum.shareit.user.model.User;
@@ -34,6 +35,9 @@ public class UserServiceImpl implements UserService {
             newUser.setName(userDto.getName());
         }
         if (userDto.getEmail() != null) {
+            if (newUser.getEmail().equals(userDto.getEmail())){
+                throw new ValidationException("Почта уже используется");
+            }
             newUser.setEmail(userDto.getEmail());
         }
         User updatedUser = userRepository.save(newUser);
