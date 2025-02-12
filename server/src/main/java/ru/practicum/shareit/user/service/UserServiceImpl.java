@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.EmailExistException;
 import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserMapper;
 import ru.practicum.shareit.user.model.User;
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto createUser(UserDto userDto) {
         User user = UserMapper.INSTANCE.toUser(userDto);
+        if (userDto.getEmail() == null || userDto.getEmail().isBlank()) {
+            throw new ValidationException("Почта не может быть пустой.");
+        }
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException exception) {
@@ -37,10 +41,6 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(Long userId, UserDto userDto) {
         User newUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Объект не найден, id = " + userId));
-        if (userDto.getName() == null && userDto.getEmail() == null) {
-            throw new IllegalArgumentException("Необходимо передать хотя бы одно поле.");
-        }
-
         if (userDto.getName() != null) {
             newUser.setName(userDto.getName());
         }
