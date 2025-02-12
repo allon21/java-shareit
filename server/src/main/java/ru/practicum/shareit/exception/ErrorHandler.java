@@ -27,7 +27,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleUserAccessException(final UserAccessException e) {
         return new ErrorResponse("У объекта нет доступа", e.getMessage());
     }
