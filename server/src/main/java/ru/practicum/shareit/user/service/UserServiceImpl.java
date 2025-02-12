@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.exception.EmailExistException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException exception) {
-            throw new ValidationException("Почта уже используется");
+            throw new EmailExistException("Почта уже используется");
         }
         return UserMapper.INSTANCE.toUserDto(userRepository.save(user));
     }
