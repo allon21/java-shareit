@@ -25,20 +25,20 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public ResponseEntity<Object> updateUser(
-            @PathVariable Long userId,
+            @PathVariable Integer userId,
             @RequestBody UserDto userDto) {
         log.info("Update user: userId={}, userDto={}", userId, userDto);
         return userClient.updateUser(userId, userDto);
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable Long userId) {
+    public void deleteUser(@PathVariable Integer userId) {
         log.info("Delete user: userId={}", userId);
         userClient.deleteUser(userId);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Object> getUserById(@PathVariable Long userId) {
+    public ResponseEntity<Object> getUserById(@PathVariable Integer userId) {
         log.info("Get user by ID: userId={}", userId);
         return userClient.getUserById(userId);
     }
