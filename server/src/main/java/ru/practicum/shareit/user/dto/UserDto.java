@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class UserDto {
-    private long id;
+    private Long id;
     @NotBlank(message = "Имя не должно быть пустым")
     private String name;
     @Email
