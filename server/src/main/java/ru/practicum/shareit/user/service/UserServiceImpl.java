@@ -37,10 +37,6 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(Long userId, UserDto userDto) {
         User newUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Объект не найден, id = " + userId));
-        if (userDto.getName() == null && userDto.getEmail() == null) {
-            throw new IllegalArgumentException("Необходимо передать хотя бы одно поле.");
-        }
-
         if (userDto.getName() != null) {
             newUser.setName(userDto.getName());
         }

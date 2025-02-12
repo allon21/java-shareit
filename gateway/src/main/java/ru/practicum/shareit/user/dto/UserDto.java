@@ -6,17 +6,19 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import ru.practicum.shareit.OnCreate;
+import ru.practicum.shareit.OnUpdate;
 
 @Getter
 @Setter
 @Builder
 public class UserDto {
     private Integer id;
-    @NotBlank
+    @NotBlank(groups = OnCreate.class)
     private String name;
-    @NotBlank
+    @NotBlank(groups = OnCreate.class)
     @NotNull
-    @Email
+    @Email(groups = {OnCreate.class, OnUpdate.class})
     private String email;
 
 }
