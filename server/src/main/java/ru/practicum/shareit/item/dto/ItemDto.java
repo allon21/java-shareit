@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +16,11 @@ import java.util.Collection;
 public class ItemDto {
     private Long id;
     @Size(max = 255)
+    @NotBlank(message = "Название не должно быть пустым")
     private String name;
     @Size(max = 512)
     private String description;
+    @NotNull(message = "Доступность не может быть null")
     private Boolean available;
     private BookingDto lastBooking;
     private BookingDto nextBooking;

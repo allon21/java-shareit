@@ -30,17 +30,17 @@ public class BookingController {
 
     @PatchMapping("/{bookingId}")
     public ResponseEntity<Object> updateBookingStatus(
-            @RequestHeader("X-Sharer-User-Id") Long userId,
+            @RequestHeader("X-Sharer-User-Id") long userId,
             @RequestParam Boolean approved,
-            @PathVariable Long bookingId) {
+            @PathVariable long bookingId) {
         log.info("Update booking status: userId={}, bookingId={}, approved={}", userId, bookingId, approved);
         return bookingClient.updateBookingStatus(userId, bookingId, approved);
     }
 
     @GetMapping("/{bookingId}")
     public ResponseEntity<Object> getBookingById(
-            @RequestHeader("X-Sharer-User-Id") Long userId,
-            @PathVariable Long bookingId) {
+            @RequestHeader("X-Sharer-User-Id") long userId,
+            @PathVariable long bookingId) {
         log.info("Get booking by ID: userId={}, bookingId={}", userId, bookingId);
         return bookingClient.getBookingById(userId, bookingId);
     }
@@ -59,7 +59,7 @@ public class BookingController {
 
     @GetMapping("/owner")
     public ResponseEntity<Object> getBookingsByOwner(
-            @RequestHeader("X-Sharer-User-Id") Long userId,
+            @RequestHeader("X-Sharer-User-Id") long userId,
             @RequestParam(defaultValue = "ALL") String state) {
         log.info("Get bookings by owner: userId={}, state={}", userId, state);
         return bookingClient.getBookingsByOwner(userId, state);

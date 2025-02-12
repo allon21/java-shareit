@@ -41,9 +41,6 @@ public class UserServiceImpl implements UserService {
             newUser.setName(userDto.getName());
         }
         if (userDto.getEmail() != null) {
-            if (newUser.getEmail().equals(userDto.getEmail())) {
-                throw new EmailExistException("Почта уже используется");
-            }
             newUser.setEmail(userDto.getEmail());
         }
         User updatedUser = userRepository.save(newUser);

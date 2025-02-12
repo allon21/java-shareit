@@ -42,11 +42,11 @@ public class BookingClient extends BaseClient {
         return get("/" + bookingId, userId);
     }
 
-    public ResponseEntity<Object> updateBookingStatus(Long userId, Long bookingId, Boolean approved) {
+    public ResponseEntity<Object> updateBookingStatus(long userId, long bookingId, Boolean approved) {
         return patch("/" + bookingId + "?approved=" + approved, userId);
     }
 
-    public ResponseEntity<Object> getBookingsByOwner(Long userId, String state) {
+    public ResponseEntity<Object> getBookingsByOwner(long userId, String state) {
         return get("/owner?state=" + state, userId);
     }
 }
