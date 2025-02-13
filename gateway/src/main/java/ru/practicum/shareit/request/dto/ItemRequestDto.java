@@ -17,6 +17,5 @@ public class ItemRequestDto {
 
     private LocalDateTime created;
 
-    private Long userId;
     private Collection<ItemResponse> items;
 }

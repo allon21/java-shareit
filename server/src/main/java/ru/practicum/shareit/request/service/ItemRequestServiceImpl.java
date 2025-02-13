@@ -2,6 +2,8 @@ package ru.practicum.shareit.request.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -49,7 +51,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         log.info("Getting item requests by user: userId={}", userId);
         userService.getUserById(userId);
 
-        return itemRequestRepository.findByUserId(userId).stream()
+        return itemRequestRepository.findByUserIdOrderByCreatedDesc(userId).stream()
                 .map(this::loadRequestedItems)
                 .toList();
     }
@@ -96,11 +98,11 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    public Collection<ItemRequestDto> getAllItemRequests(Long userId) {
-        log.info("Getting all item requests: userId={}", userId);
+    public Collection<ItemRequestDto> getAllItemRequests(Long userId, int from, int size) {
+        log.info("Getting all item requests: userId={}, from={}, size={}", userId, from, size);
         userService.getUserById(userId);
-
-        return itemRequestRepository.findByUserIdNot(userId).stream()
+        Pageable pageable = PageRequest.of(from / size, size);
+        return itemRequestRepository.findByUserIdNotOrderByCreatedDesc(userId, pageable).stream()
                 .map(ItemRequestMapper.INSTANCE::toItemRequestDto)
                 .toList();
     }

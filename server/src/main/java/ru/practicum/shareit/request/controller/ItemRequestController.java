@@ -36,9 +36,11 @@ public class ItemRequestController {
 
     @GetMapping("/all")
     public ResponseEntity<Collection<ItemRequestDto>> getAllItemRequests(
-            @RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Get all item requests: userId={}", userId);
-        Collection<ItemRequestDto> requests = itemRequestService.getAllItemRequests(userId);
+            @RequestHeader("X-Sharer-User-Id") Long userId,
+            @RequestParam(defaultValue = "0") int from,
+            @RequestParam(defaultValue = "10") int size) {
+        log.info("Get all item requests: userId={}, from={}, size={}", userId, from, size);
+        Collection<ItemRequestDto> requests = itemRequestService.getAllItemRequests(userId, from, size);
         return ResponseEntity.ok(requests);
     }
 
